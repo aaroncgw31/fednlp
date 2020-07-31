@@ -189,10 +189,10 @@ def get_dfs_from_scratch():
 
 if __name__ == '__main__':
     # daily data
-    df = update_dfs()
-    with open('rates_daily.pickle', 'wb') as handle:
+    df = get_dfs_from_scratch()
+    with open('../rates/rates_daily.pickle', 'wb') as handle:
         pickle.dump(df, handle, protocol=pickle.HIGHEST_PROTOCOL)
     # monthly averages
     mf = to_monthly_average(df)
-    with open('rates_monthly.pickle', 'wb') as handle:
+    with open('../rates/rates_monthly.pickle', 'wb') as handle:
         pickle.dump(mf, handle, protocol=pickle.HIGHEST_PROTOCOL)
