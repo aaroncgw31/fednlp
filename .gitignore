@@ -2,4 +2,6 @@
 .DS_Store
 my_env
 __pycache__
+minutes_bert_vectors.pkl.gz
+minutes_elmo_vectors.pkl.gz
 xml

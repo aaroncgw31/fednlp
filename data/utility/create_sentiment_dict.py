@@ -48,7 +48,7 @@ class Tokenizer(BaseTokenizer):
         files = ['Currencies.txt', 'DatesandNumbers.txt', 'Generic.txt', 'Geographic.txt', 'Names.txt']
         stopset = set()
         for f in files:
-            fin = open('%s/%s'%('/Users/aaroncgw/PycharmProjects/fednlp/data/sentiment', f), 'rb')
+            fin = open('%s/%s'%('../sentiment', f), 'rb')
             for line in fin.readlines():
                 line = line.decode(encoding='latin-1')
                 match = re.search('(\w+)', line)
@@ -82,8 +82,8 @@ def tokenize_first(x):
 
 
 if __name__ == '__main__':
-    hiv = pd.read_csv('/Users/aaroncgw/PycharmProjects/fednlp/data/sentiment/HIV-4.csv',dtype ='category')
-    lm = pd.read_csv('/Users/aaroncgw/PycharmProjects/fednlp/data/sentiment/LM.csv')
+    hiv = pd.read_csv('../sentiment/HIV-4.csv',dtype ='category')
+    lm = pd.read_csv('../sentiment/LM.csv')
     
     HIVp_lower = set(hiv.query('Positiv == "Positiv"')['Entry'].apply(tokenize_first).dropna())
     HIVn_lower = set(hiv.query('Negativ == "Negativ"')['Entry'].apply(tokenize_first).dropna())
@@ -94,8 +94,8 @@ if __name__ == '__main__':
     posDict = set(HIVp_lower|LMp_lower)
     negDict = set(HIVn_lower|LMn_lower)
     
-    with open('sentiment_pos_dict.pickle', 'wb') as handle:
+    with open('../sentiment/sentiment_pos_dict.pickle', 'wb') as handle:
         pickle.dump(posDict, handle, protocol=pickle.HIGHEST_PROTOCOL)
         
-    with open('sentiment_neg_dict.pickle', 'wb') as handle:
+    with open('../sentiment/sentiment_neg_dict.pickle', 'wb') as handle:
         pickle.dump(negDict, handle, protocol=pickle.HIGHEST_PROTOCOL)

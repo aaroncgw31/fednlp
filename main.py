@@ -47,11 +47,11 @@ class SentimentAnalyzer:
     
     def predict(self, text):
         sentiment = None
-        score = self.sentiment_calculator(self.tokenizer(text), self.posDict, self.negDict)
+        score = self.sentiment_calculator(self.tokenizer(text), self.posDict, self.negDict) * 1000
         if score > 0:
-            sentiment = "Positive: %.4f" % score
+            sentiment = "Positive: %.4f" % score + "%"
         else:
-            sentiment = "Negative: %.4f" % score
+            sentiment = "Negative: %.4f%" % score + "%"
         return sentiment
 
 sentimentAnalyzer = SentimentAnalyzer(simple_tokenizer, RetrieveScore, posDict, negDict)
@@ -65,18 +65,18 @@ class TopicAnalyzer:
         self.model = model
         self.tokenizer = tokenizer
         self.topic_dict = {
-                  0 : 'Inflation',
-                  1 : 'Economic Policy',
-                  2 : 'Investment', 
-                  3 : 'Financial Market',
-                  4 : 'Labor Market', 
-                  5 : 'Growth Outlook'
-             }
+              0 : 'Inflation',
+              1 : 'Economic Policy',
+              2 : 'Growth Outlook', 
+              3 : 'Financial Market',
+              4 : 'Labor Market', 
+              5 : 'Investment'
+        }
     
     
     def predict(self, text):
         topic_weights = self.model.transform([self.tokenizer(text)])[0]
-        topic_weights_percentage = [str(100 * round(weight,4)) + "%" for weight in list(topic_weights)]
+        topic_weights_percentage = [str(round(100*weight, 2)) + "%" for weight in list(topic_weights)]
         return str(dict(zip(self.topic_dict.values(), topic_weights_percentage)))
     
 topicAnalyzer = TopicAnalyzer(simple_tokenizer, lda_pipe)
@@ -93,7 +93,7 @@ async def predict_minutes_paragraph(minutes_paragraph: str):
     return ({
         "Topic": topicAnalyzer.predict(minutes_paragraph),
         "Sentiment": sentimentAnalyzer.predict(minutes_paragraph),
-        "Steepen": str(bert_svc_pipe.predict([minutes_paragraph]))
+        "Steepen": str(bert_svc_pipe.predict([minutes_paragraph])[0])
     })
 
 

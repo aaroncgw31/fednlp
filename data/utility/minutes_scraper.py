@@ -42,7 +42,7 @@ def minarchive(year):
 
 
 def saveFile(fname, year, text):
-    main_directory = '/'
+    main_directory = '/Users/aaroncgw/Google Drive/fednlp/data/minutes/'
     os.chdir(main_directory)
     directory = main_directory + str(year) + '/'
 

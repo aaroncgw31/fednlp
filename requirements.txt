@@ -17,3 +17,4 @@ nltk==3.5
 requests==2.24.0
 transformers==3.0.2
 beautifulsoup4==4.9.1
+lxml==4.5.2

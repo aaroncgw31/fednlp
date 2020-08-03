@@ -1,5 +1,9 @@
 import nltk
 from nltk.corpus import CategorizedPlaintextCorpusReader
+import re
+import os
+
+nltk.download('punkt')
 
 def crop_text(raw_text,start_dict,end_dict):
 
@@ -21,11 +25,11 @@ def crop_text(raw_text,start_dict,end_dict):
     if len(sloc) != 0:
         return raw_text[min(sloc):max(eloc)]
     else:
-        print(raw_text)
+        #print(raw_text)
         return None
 
 def saveFile(fname,year,text):
-    main_directory = file_path_prefix + 'minutes_cropped/'
+    main_directory = '/Users/aaroncgw/Google Drive/fednlp/data/minutes_cropped/'
     os.chdir(main_directory)
     directory = main_directory + str(year) + '/'
     
@@ -52,8 +56,8 @@ doc_end[1] = re.compile('(?i)The Committee voted to authorize')
 doc_end[2] = re.compile('(?i)The vote encompassed approval of')
 
 
-if __main__ == '__name__':
-    corpus_root = './minutes'
+if __name__ == '__main__':
+    corpus_root = '/Users/aaroncgw/Google Drive/fednlp/data/minutes/'
     data_m = CategorizedPlaintextCorpusReader(corpus_root, r'.*\.txt', cat_pattern=r'(\w+)/*')
     data_fileids = data_m.fileids()
     
