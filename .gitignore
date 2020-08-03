@@ -3,3 +3,7 @@
 my_env
 __pycache__
 xml
+models
+minutes_bert_vectors.pkl.gz
+minutes_elmo_vectors.pkl.gz
+

@@ -42,7 +42,7 @@ def minarchive(year):
 
 
 def saveFile(fname, year, text):
-    main_directory = '/'
+    main_directory = '/Users/aaroncgw/Google Drive/fednlp/data/minutes/'
     os.chdir(main_directory)
     directory = main_directory + str(year) + '/'
 
@@ -62,7 +62,7 @@ def saveFile(fname, year, text):
 
 
 if __name__ == '__main__':
-    start_year, end_year = 2020, 2004
+    start_year, end_year = 2020, 1999
     p = Pool(processes=(start_year - end_year))
     p.map(minarchive, range(start_year, end_year - 1, -1))
     p.close()

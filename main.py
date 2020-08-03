@@ -47,11 +47,11 @@ class SentimentAnalyzer:
     
     def predict(self, text):
         sentiment = None
-        score = self.sentiment_calculator(self.tokenizer(text), self.posDict, self.negDict)
+        score = self.sentiment_calculator(self.tokenizer(text), self.posDict, self.negDict) * 1000
         if score > 0:
-            sentiment = "Positive: %.4f" % score
+            sentiment = "Positive: %.4f" % score + "%"
         else:
-            sentiment = "Negative: %.4f" % score
+            sentiment = "Negative: %.4f%" % score + "%"
         return sentiment
 
 sentimentAnalyzer = SentimentAnalyzer(simple_tokenizer, RetrieveScore, posDict, negDict)
