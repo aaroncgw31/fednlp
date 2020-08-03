@@ -93,7 +93,7 @@ async def predict_minutes_paragraph(minutes_paragraph: str):
     return ({
         "Topic": topicAnalyzer.predict(minutes_paragraph),
         "Sentiment": sentimentAnalyzer.predict(minutes_paragraph),
-        "Steepen": str(bert_svc_pipe.predict(minutes_paragraph))
+        "Steepen": str(bert_svc_pipe.predict([minutes_paragraph]))
     })
 
 

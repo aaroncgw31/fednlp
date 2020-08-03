@@ -1,13 +1,9 @@
-#nbertagnolli/bert_sklearn_transformer.py
-
-from transformers import BertTokenizer, BertModel, BertForMaskedLM
 from typing import Callable, List, Optional, Tuple
 
 import pandas as pd
 from sklearn.base import TransformerMixin, BaseEstimator
 import torch
 
-device = torch.device("cuda:0")
 
 class BertTransformer(BaseEstimator, TransformerMixin):
     def __init__(
@@ -30,10 +26,8 @@ class BertTransformer(BaseEstimator, TransformerMixin):
         # Tokenize the text with the provided tokenizer
         tokenized_text = self.tokenizer.encode_plus(text,
                                                     add_special_tokens=True,
-                                                    max_length=self.max_length,
-                                                    truncation=True
+                                                    max_length=self.max_length
                                                     )["input_ids"]
-        tokenized_text.to(device)
 
         # Create an attention mask telling BERT to use all words
         attention_mask = [1] * len(tokenized_text)
