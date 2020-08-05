@@ -50,8 +50,10 @@ class SentimentAnalyzer:
         score = self.sentiment_calculator(self.tokenizer(text), self.posDict, self.negDict) * 1000
         if score > 0:
             sentiment = "Positive: %.4f" % score + "%"
+        elif score == 0:
+            sentiment = "Netural: %.4f" % score + "%"
         else:
-            sentiment = "Negative: %.4f%" % score + "%"
+            sentiment = "Negative: %.4f" % score + "%"
         return sentiment
 
 sentimentAnalyzer = SentimentAnalyzer(simple_tokenizer, RetrieveScore, posDict, negDict)
@@ -82,8 +84,23 @@ class TopicAnalyzer:
 topicAnalyzer = TopicAnalyzer(simple_tokenizer, lda_pipe)
 
 
-bert_svc_pipe = pickle.load(open(file_path_prefix + 'models/bert_svc.pkl', 'rb'))
+lda_svc_pipe = pickle.load(open(file_path_prefix + 'models/lda_svc_pipe.pkl', 'rb'))
+class SpreadAnalyzer:
+    def __init__(self, tokenizer, model):
+        self.model = model
+        self.tokenizer = tokenizer
+        self.class_dict = {
+              0 : 'Flatten',
+              1 : 'Steepen'
+        }
+    
+    
+    def predict(self, text):
+        class_prob = self.model.predict_proba([self.tokenizer(text)])[0]
+        class_prob_percentage = [str(round(100*weight, 2)) + "%" for weight in list(class_prob)]
+        return str(dict(zip(self.class_dict.values(), class_prob_percentage)))
 
+spreadAnalyzer = SpreadAnalyzer(simple_tokenizer, lda_svc_pipe)
 
 
 app = FastAPI()
@@ -93,7 +110,7 @@ async def predict_minutes_paragraph(minutes_paragraph: str):
     return ({
         "Topic": topicAnalyzer.predict(minutes_paragraph),
         "Sentiment": sentimentAnalyzer.predict(minutes_paragraph),
-        "Steepen": str(bert_svc_pipe.predict([minutes_paragraph])[0])
+        "Spread": spreadAnalyzer.predict(minutes_paragraph)
     })
 
 
