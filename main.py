@@ -84,7 +84,7 @@ class TopicAnalyzer:
 topicAnalyzer = TopicAnalyzer(simple_tokenizer, lda_pipe)
 
 
-lda_svc_pipe = pickle.load(open(file_path_prefix + 'models/lda_svc_pipe.pkl', 'rb'))
+tfidf_svc_pipe = pickle.load(open(file_path_prefix + 'models/tfidf_svc_pipe.pkl', 'rb'))
 class SpreadAnalyzer:
     def __init__(self, tokenizer, model):
         self.model = model
@@ -100,7 +100,7 @@ class SpreadAnalyzer:
         class_prob_percentage = [str(round(100*weight, 2)) + "%" for weight in list(class_prob)]
         return str(dict(zip(self.class_dict.values(), class_prob_percentage)))
 
-spreadAnalyzer = SpreadAnalyzer(simple_tokenizer, lda_svc_pipe)
+spreadAnalyzer = SpreadAnalyzer(simple_tokenizer, tfidf_svc_pipe)
 
 
 app = FastAPI()
