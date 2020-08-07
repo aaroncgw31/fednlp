@@ -85,7 +85,7 @@ topicAnalyzer = TopicAnalyzer(simple_tokenizer, lda_pipe)
 
 
 tfidf_svc_pipe = pickle.load(open(file_path_prefix + 'models/tfidf_svc_pipe.pkl', 'rb'))
-class SpreadAnalyzer:
+class SlpoeAnalyzer:
     def __init__(self, tokenizer, model):
         self.model = model
         self.tokenizer = tokenizer
@@ -100,7 +100,7 @@ class SpreadAnalyzer:
         class_prob_percentage = [str(round(100*weight, 2)) + "%" for weight in list(class_prob)]
         return str(dict(zip(self.class_dict.values(), class_prob_percentage)))
 
-spreadAnalyzer = SpreadAnalyzer(simple_tokenizer, tfidf_svc_pipe)
+slopeAnalyzer = SlpoeAnalyzer(simple_tokenizer, tfidf_svc_pipe)
 
 
 app = FastAPI()
@@ -110,7 +110,7 @@ async def predict_minutes_paragraph(minutes_paragraph: str):
     return ({
         "Topic": topicAnalyzer.predict(minutes_paragraph),
         "Sentiment": sentimentAnalyzer.predict(minutes_paragraph),
-        "Spread": spreadAnalyzer.predict(minutes_paragraph)
+        "Slope": slopeAnalyzer.predict(minutes_paragraph)
     })
 
 
